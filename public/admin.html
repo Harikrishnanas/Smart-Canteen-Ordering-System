@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Canteen — Admin Portal</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+
+<body>
+    <div class="admin-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><ion-icon name="restaurant"></ion-icon></div>
+                <div class="sidebar-brand-text">
+                    <h3>SmartCanteen</h3>
+                    <p>Admin Control</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" id="nav-orders">
+                    <ion-icon name="list-outline"></ion-icon> Live Orders
+                </button>
+                <button class="nav-item" id="nav-menu">
+                    <ion-icon name="fast-food-outline"></ion-icon> Manage Menu
+                </button>
+                <button class="nav-item" id="nav-history">
+                    <ion-icon name="time-outline"></ion-icon> Order History
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-info-text">
+                        <h4>Admin</h4>
+                        <p>Kitchen Manager</p>
+                    </div>
+                </div>
+                <button class="btn btn-ghost btn-full btn-sm" id="logoutBtn">
+                    <ion-icon name="log-out-outline"></ion-icon> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <div class="admin-main">
+            <!-- Top bar -->
+            <div class="admin-topbar">
+                <div class="admin-topbar-left">
+                    <h1 id="pageTitle">Live Orders</h1>
+                    <p id="pageSubtitle">Manage incoming tickets in real-time</p>
+                </div>
+                <div class="admin-topbar-right">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode"
+                        style="margin-right: 10px;">
+                        <ion-icon name="moon-outline"></ion-icon>
+                    </button>
+                    <div class="poll-indicator">
+                        <div class="poll-dot"></div> Live
+                    </div>
+                    <!-- Add item button shows only on menu view -->
+                    <button class="btn btn-primary btn-sm" id="addItemBtn" style="display:none;">
+                        <ion-icon name="add-circle-outline"></ion-icon> Add Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="admin-content">
+
+                <!-- ===== ORDERS VIEW ===== -->
+                <div id="ordersView">
+                    <!-- Dashboard Stats (Moved) -->
+                    <div class="dashboard-header-bar" style="margin-bottom: 20px;">
+                        <h2 style="font-size:1.1rem;margin-bottom:4px;font-weight:700;">Today's Overview</h2>
+                        <p style="font-size:0.8rem;color:var(--text-muted);">Real-time metrics and revenue</p>
+                    </div>
+
+                    <div class="stats-grid" style="margin-bottom: 30px;">
+                        <div class="stat-card">
+                            <div class="stat-icon pending-icon"><ion-icon name="time-outline"></ion-icon></div>
+                            <div class="stat-info">
+                                <label>Pending Orders</label>
+                                <p id="db-pending">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon active-icon"><ion-icon name="flame-outline"></ion-icon></div>
+                            <div class="stat-info" style="flex:1;">
+                                <label>Active Orders</label>
+                                <p id="db-active">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon completed-icon"><ion-icon name="checkmark-done-outline"></ion-icon>
+                            </div>
+                            <div class="stat-info">
+                                <label>Completed Orders</label>
+                                <p id="db-completed">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card revenue-card">
+                            <div class="stat-icon revenue-icon"><ion-icon name="wallet-outline"></ion-icon></div>
+                            <div class="stat-info" style="flex:1;">
+                                <label>Session Revenue</label>
+                                <p id="db-revenue">₹0</p>
+                            </div>
+                            <button class="btn btn-ghost btn-sm" id="btnRefreshRevenue" title="Reset Revenue Session"
+                                style="padding:6px 10px; border:1px solid rgba(168,85,247,0.3); color:#a855f7;">
+                                <ion-icon name="refresh-outline"></ion-icon> Reset
+                            </button>
+                        </div>
+                    </div>
+                    <div class="kanban-board" id="kanbanBoard">
+                        <!-- Pending Column -->
+                        <div class="kanban-col">
+                            <div class="kanban-header">
+                                <div class="kanban-header-title">
+                                    <span style="color:var(--accent);">●</span> Pending
+                                </div>
+                                <span class="kanban-count" id="cntPending">0</span>
+                            </div>
+                            <div class="kanban-subtitle">Awaiting review</div>
+                            <div class="kanban-cards" id="colPending">
+                                <div class="empty-kanban-state">No new orders</div>
+                            </div>
+                        </div>
+
+                        <!-- Preparing Column -->
+                        <div class="kanban-col">
+                            <div class="kanban-header">
+                                <div class="kanban-header-title">
+                                    <span style="color:#60acff;">●</span> Preparing
+                                </div>
+                                <span class="kanban-count" id="cntPreparing">0</span>
+                            </div>
+                            <div class="kanban-subtitle">Currently cooking</div>
+                            <div class="kanban-cards" id="colPreparing">
+                                <div class="empty-kanban-state">No preparing orders</div>
+                            </div>
+                        </div>
+
+                        <!-- Ready Column -->
+                        <div class="kanban-col">
+                            <div class="kanban-header">
+                                <div class="kanban-header-title">
+                                    <span style="color:var(--primary);">●</span> Ready
+                                </div>
+                                <span class="kanban-count" id="cntReady">0</span>
+                            </div>
+                            <div class="kanban-subtitle">Awaiting pickup</div>
+                            <div class="kanban-cards" id="colReady">
+                                <div class="empty-kanban-state">No ready orders</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MENU VIEW ===== -->
+                <div id="menuView" style="display:none;">
+                    <!-- Inline add/edit form -->
+                    <div class="add-item-card" id="addItemCard">
+                        <h3><ion-icon name="add-circle-outline"></ion-icon> <span id="formTitle">Add New Item</span>
+                        </h3>
+                        <form id="itemForm" enctype="multipart/form-data">
+                            <input type="hidden" id="editItemId">
+                            <div class="form-grid">
+                                <div class="form-group form-full">
+                                    <label>Item Name</label>
+                                    <div class="input-wrapper">
+                                        <ion-icon name="fast-food-outline"></ion-icon>
+                                        <input type="text" name="item_name" id="f-name"
+                                            placeholder="e.g. Chicken Burger" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select name="category" id="f-category" class="styled">
+                                        <option value="Main Course">Main Course</option>
+                                        <option value="Snacks">Snacks</option>
+                                        <option value="Beverages">Beverages</option>
+                                        <option value="Desserts">Desserts</option>
+                                        <option value="Salads">Salads</option>
+                                        <option value="Sides">Sides</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Price (₹)</label>
+                                    <div class="input-wrapper">
+                                        <ion-icon name="logo-usd"></ion-icon>
+                                        <input type="number" name="price" id="f-price" placeholder="e.g. 149" min="1"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Prep Time (minutes)</label>
+                                    <div class="input-wrapper">
+                                        <ion-icon name="time-outline"></ion-icon>
+                                        <input type="number" name="prep_time" id="f-prep" placeholder="e.g. 10" min="1"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Availability</label>
+                                    <select name="availability_status" id="f-avail" class="styled">
+                                        <option value="available">Available</option>
+                                        <option value="unavailable">Unavailable</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Food Image</label>
+                                    <div class="image-upload-area" id="imageUploadArea"
+                                        onclick="document.getElementById('imageInput').click()">
+                                        <ion-icon name="camera-outline"></ion-icon>
+                                        <span id="uploadLabel">Click to upload image</span>
+                                        <img id="imgPreview" style="display:none;">
+                                    </div>
+                                    <input type="file" name="image" id="imageInput" accept="image/*">
+                                </div>
+                            </div>
+                            <div id="formError" style="color:var(--danger); font-size:0.82rem; margin-top:12px;"></div>
+                            <div style="display:flex; gap:10px; margin-top:20px;">
+                                <button type="submit" class="btn btn-primary" id="saveItemBtn">
+                                    <ion-icon name="save-outline"></ion-icon> Save Item
+                                </button>
+                                <button type="button" class="btn btn-ghost" id="cancelFormBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Menu cards -->
+                    <div class="menu-cards" id="menuCards">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- ===== HISTORY VIEW ===== -->
+                <div id="historyView" style="display:none;">
+                    <div class="history-table-wrap">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyBody">
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:40px; color:var(--text-muted);">No
+                                        history yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

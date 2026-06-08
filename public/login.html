@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Smart Canteen v2</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body class="login-body">
+
+  <div class="login-split">
+    <!-- LEFT PANEL: Branding & Visuals -->
+    <div class="login-left">
+      <div class="login-left-bg"></div>
+      <div class="login-left-photo"></div>
+      <div class="login-left-overlay"></div>
+    </div>
+
+    <!-- RIGHT PANEL: Login Card -->
+    <div class="login-right">
+      <div class="dots-pattern">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+      <div class="bottom-leaf">
+        <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+          <path d="M100 100 Q60 60 40 100" stroke="#2ecc71" stroke-width="0.5" />
+          <path d="M100 100 Q80 40 100 20" stroke="#c8a96e" stroke-width="0.5" />
+        </svg>
+      </div>
+
+      <div class="login-card">
+        <h2 class="card-title">Welcome <span>Back</span></h2>
+        <p class="card-subtitle">Choose your access portal to continue</p>
+        <div class="green-underline"></div>
+
+        <div class="role-row">
+          <div class="role-card active" data-role="student" id="role-student">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>Student</span>
+          </div>
+          <div class="role-card" data-role="admin" id="role-admin">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+            <span>Admin</span>
+          </div>
+          <div class="role-card" data-role="cashier" id="role-cashier">
+            <ion-icon name="print-outline"></ion-icon>
+            <span>Cashier</span>
+          </div>
+        </div>
+
+        <form id="loginForm">
+          <div id="errorMsg"></div>
+
+          <div class="form-fields">
+            <!-- Dynamic placeholder based on role -->
+            <div class="field-row" id="usernameField">
+              <ion-icon name="phone-portrait-outline" id="idIcon"></ion-icon>
+              <input type="text" id="username" placeholder="Phone Number or Email" required autocomplete="username">
+            </div>
+
+            <!-- Password field (hidden/shown based on role) -->
+            <div class="field-row" id="passwordField" style="display:none;">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              <input type="password" id="password" placeholder="Admin/Cashier Password" autocomplete="current-password">
+              <ion-icon name="eye-outline" class="eye-toggle" id="togglePassword"></ion-icon>
+            </div>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span>Login</span>
+            <ion-icon name="arrow-forward-outline" style="font-weight: 300;"></ion-icon>
+          </button>
+        </form>
+
+        <div class="secure-row">
+          <ion-icon name="lock-closed"></ion-icon>
+          <span>Secure Login</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer"></div>
+
+  <script src="js/login.js"></script>
+</body>
+
+</html>

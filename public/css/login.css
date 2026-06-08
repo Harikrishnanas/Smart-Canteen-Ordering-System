@@ -1,0 +1,468 @@
+/* =========================================================
+   LOGIN PAGE - Exactly matching the reference image
+   Split layout: Left (blurred photo bg + logo), Right (dark card)
+   Color palette: Deep black, dark charcoal, emerald green, gold accents
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.login-body {
+    font-family: 'Inter', sans-serif;
+    background: #080c0a;
+    color: #e0e6e3;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* ---- SPLIT LAYOUT ---- */
+.login-split {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ---- LEFT PANEL: Blurred restaurant background ---- */
+.login-left {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Real high-quality background image */
+.login-left-bg {
+    position: absolute;
+    inset: 0;
+    background: url('/uploads/login_bg_new.jpeg') no-repeat center center;
+    background-size: cover;
+}
+
+/* Removed simulated photo overlay and dark overlay as the new image provides it. */
+
+/* Decorative golden/green swoosh lines at bottom-left */
+.login-swoosh {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 340px;
+    height: 200px;
+    pointer-events: none;
+}
+
+/* Branding in center-left */
+.login-brand {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding-bottom: 40px;
+}
+
+/* Golden logo circle */
+.brand-logo-ring {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.brand-logo-ring svg {
+    width: 100%;
+    height: 100%;
+}
+
+.brand-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 5px;
+    color: #dfcdad;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.brand-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    font-weight: 300;
+    color: #9a8a6a;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.brand-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(223, 205, 173, 0.4), transparent);
+    margin-bottom: 24px;
+}
+
+.brand-tagline {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #8c908a;
+    letter-spacing: 1.5px;
+}
+
+/* ---- RIGHT PANEL: Dark form panel ---- */
+.login-right {
+    width: 480px;
+    flex-shrink: 0;
+    background: #080a09;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    position: relative;
+    border-left: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Decorative dots top-right corner */
+.dots-pattern {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    display: grid;
+    grid-template-columns: repeat(5, 6px);
+    gap: 6px;
+    opacity: 0.3;
+}
+
+.dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #c8a96e;
+}
+
+/* Decorative green leaf/swirl at bottom right */
+.bottom-leaf {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+/* ---- CARD ---- */
+.login-card {
+    width: 100%;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 42px 32px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.card-title {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e0e6e0;
+    margin-bottom: 4px;
+}
+
+.card-title span {
+    color: #2ecc71;
+}
+
+.card-subtitle {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: #889988;
+    margin-bottom: 12px;
+}
+
+.green-underline {
+    width: 24px;
+    height: 1px;
+    background: #00c97a;
+    margin: 0 auto 36px;
+}
+
+.role-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.role-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 76px;
+    background: transparent;
+    border: 1px solid #1e2520;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #9aa89a;
+    font-size: 0.72rem;
+    font-weight: 500;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.role-card ion-icon {
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+    color: #7a887a;
+}
+
+.role-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(0, 201, 122, 0.1), transparent 70%);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.role-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #d0e0d0;
+}
+
+.role-card.active {
+    background: rgba(0, 201, 122, 0.05);
+    border: 1px solid #00c97a;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 201, 122, 0.15), inset 0 0 12px rgba(0, 201, 122, 0.1);
+}
+
+.role-card.active::before {
+    opacity: 1;
+}
+
+.role-card.active ion-icon {
+    color: #00c97a;
+}
+
+/* ---- FORM FIELDS ---- */
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.field-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 0 16px;
+    transition: all 0.3s ease;
+}
+
+.field-row:focus-within {
+    border-color: #00c97a;
+    background: rgba(0, 201, 122, 0.03);
+}
+
+.field-row ion-icon {
+    font-size: 1.1rem;
+    color: #a0a0a0;
+    flex-shrink: 0;
+    transition: color 0.3s ease;
+}
+
+.field-row:focus-within ion-icon {
+    color: #00c97a;
+}
+
+.field-row input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 14px 0;
+}
+
+.field-row input::placeholder {
+    color: #6a7a6a;
+}
+
+.eye-toggle {
+    color: #6a7a6a;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.eye-toggle:hover {
+    color: #00c97a;
+}
+
+/* Error */
+#errorMsg {
+    font-size: 0.8rem;
+    color: #ff6b6b;
+    background: rgba(255, 77, 77, 0.08);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    display: none;
+}
+
+#errorMsg.show {
+    display: block;
+}
+
+/* ---- LOGIN BUTTON ---- */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid rgba(0, 201, 122, 0.6);
+    border-radius: 999px;
+    background: linear-gradient(90deg, #1f4233, #15251d);
+    color: #e0f0e0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 201, 122, 0.15);
+    position: relative;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.login-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 201, 122, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(0, 200, 100, 0.5), 0 0 60px rgba(0, 200, 100, 0.15);
+}
+
+.login-btn:hover::before {
+    opacity: 1;
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.login-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.login-btn ion-icon {
+    font-size: 1.2rem;
+}
+
+/* ---- SECURE BADGE ---- */
+.secure-row {
+    display: none;
+    /* Hide secure rows as target image doesn't feature it prominently */
+}
+
+/* Toast (inherit from global but standalone here) */
+#toastContainer {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #141e18;
+    border: 1px solid #1e2e22;
+    border-radius: 12px;
+    padding: 14px 18px;
+    min-width: 280px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transform: translateX(120%);
+    transition: transform 0.35s ease;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.error {
+    border-color: rgba(255, 77, 77, 0.4);
+}
+
+.toast-icon {
+    font-size: 1.4rem;
+    color: #00c97a;
+}
+
+.toast.error .toast-icon {
+    color: #ff6b6b;
+}
+
+.toast-content h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.toast-content p {
+    font-size: 0.78rem;
+    color: #4a6a50;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 780px) {
+    .login-left {
+        display: none;
+    }
+
+    .login-right {
+        width: 100%;
+    }
+}

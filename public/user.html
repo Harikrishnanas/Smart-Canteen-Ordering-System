@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Canteen — Student Portal</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/user.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="user-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><ion-icon name="restaurant"></ion-icon></div>
+                <div class="sidebar-brand-text">
+                    <h3>SmartCanteen</h3>
+                    <p>Student Portal</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" id="tab-menu" data-tab="menuView">
+                    <ion-icon name="restaurant-outline"></ion-icon> Browse Menu
+                </button>
+                <button class="nav-item" id="tab-orders" data-tab="ordersView">
+                    <ion-icon name="receipt-outline"></ion-icon> My Orders
+                </button>
+                <button class="nav-item" id="tab-history" data-tab="historyView">
+                    <ion-icon name="time-outline"></ion-icon> History
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar" id="userInitial">U</div>
+                    <div class="user-profile-text">
+                        <h4 id="userNameDisplay">Student</h4>
+                        <p>Welcome Back</p>
+                    </div>
+                </div>
+                <button class="btn btn-ghost btn-full btn-sm" id="logoutBtn">
+                    <ion-icon name="log-out-outline"></ion-icon> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <div class="user-main">
+            <!-- TOP HEADER -->
+            <header class="app-header">
+                <div class="header-left">
+                    <h1 id="pageTitle" class="page-title">Browse Menu</h1>
+                </div>
+
+                <div class="header-search" style="display:none;">
+                    <div class="search-box">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="text" id="searchInput" placeholder="Search for food...">
+                    </div>
+                </div>
+
+                <div class="header-actions" style="display:none;">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
+                        <ion-icon name="moon-outline"></ion-icon>
+                    </button>
+                    <button class="cart-btn" id="cartToggleBtn" title="Cart">
+                        <ion-icon name="cart-outline"></ion-icon>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- CONTENT -->
+            <main class="content-area">
+
+                <!-- MENU VIEW -->
+                <div id="menuView">
+                    <!-- Dashboard Stats (Moved) -->
+                    <div class="stats-row" style="padding: 20px 0 28px 0;">
+                        <div class="stat-card">
+                            <div class="stat-icon"><ion-icon name="radio-outline"></ion-icon></div>
+                            <div class="stat-info">
+                                <label>Active Orders</label>
+                                <p id="statActive">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><ion-icon name="checkmark-done-outline"></ion-icon></div>
+                            <div class="stat-info">
+                                <label>Orders Made</label>
+                                <p id="statTotal">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><ion-icon name="wallet-outline"></ion-icon></div>
+                            <div class="stat-info">
+                                <label>Total Spent</label>
+                                <p id="statSpent">₹0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category filter -->
+                    <div class="category-bar">
+                        <div class="cat-pill active" data-cat="All">All</div>
+                        <div class="cat-pill" data-cat="Main Course">Main Course</div>
+                        <div class="cat-pill" data-cat="Snacks">Snacks</div>
+                        <div class="cat-pill" data-cat="Beverages">Beverages</div>
+                        <div class="cat-pill" data-cat="Desserts">Desserts</div>
+                        <div class="cat-pill" data-cat="Salads">Salads</div>
+                        <div class="cat-pill" data-cat="Sides">Sides</div>
+                    </div>
+
+                    <!-- Menu grid -->
+                    <div class="menu-grid" id="menuGrid">
+                        <!-- Cards injected by JS -->
+                    </div>
+                </div>
+
+                <!-- ORDERS / TRACKER VIEW -->
+                <div id="ordersView" style="display:none;">
+                    <div class="trackers-section">
+                        <p class="section-title"><ion-icon name="radio-outline"></ion-icon> Active Orders</p>
+                        <div class="trackers-grid" id="trackersGrid">
+                            <div class="empty-state">
+                                <ion-icon name="receipt-outline"></ion-icon>
+                                <p>No active orders right now.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HISTORY VIEW -->
+                <div id="historyView" style="display:none;">
+                    <p class="section-title"><ion-icon name="time-outline"></ion-icon> Order History</p>
+                    <div class="history-list" id="historyList">
+                        <div class="empty-state">
+                            <ion-icon name="time-outline"></ion-icon>
+                            <p>No past orders yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- CART DRAWER OVERLAY -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- CART DRAWER -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2><ion-icon name="cart-outline"></ion-icon> Your Cart</h2>
+            <div class="close-cart-btn" id="closeCartBtn">
+                <ion-icon name="close-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <div class="empty-state">
+                <ion-icon name="cart-outline"></ion-icon>
+                <p>Your cart is empty.<br>Add items from the menu!</p>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-summary">
+                <div class="cart-row">
+                    <span>Subtotal</span>
+                    <span>₹<span id="subTotal">0</span></span>
+                </div>
+                <div class="cart-row total">
+                    <span>Total</span>
+                    <span>₹<span id="cartTotal">0</span></span>
+                </div>
+            </div>
+
+            <div class="payment-select">
+                <label>Payment Method</label>
+                <div class="payment-opts">
+                    <div class="pay-opt selected" data-pm="cash" id="pm-cash">
+                        <ion-icon name="cash-outline"></ion-icon>
+                        Cash
+                    </div>
+                    <div class="pay-opt" data-pm="online" id="pm-online">
+                        <ion-icon name="card-outline"></ion-icon>
+                        Online
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-full" id="placeOrderBtn" disabled>
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                Place Order
+            </button>
+        </div>
+    </div>
+
+    <!-- ONLINE PAYMENT SUCCESS MODAL -->
+    <div class="pay-modal" id="payModal">
+        <div class="pay-modal-card">
+            <div class="pay-check-icon">
+                <ion-icon name="checkmark-circle"></ion-icon>
+            </div>
+            <h3>Payment Successful!</h3>
+            <p>Your online payment has been processed. Your order is now placed and being reviewed by the kitchen.</p>
+            <button class="btn btn-primary btn-full" id="payModalClose">Continue</button>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+    <script src="js/user.js"></script>
+</body>
+
+</html>

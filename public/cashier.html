@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Canteen — Cashier Terminal</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/cashier.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+
+<body>
+    <div class="cashier-shell">
+
+        <!-- HEADER -->
+        <header class="cashier-header">
+            <div class="cashier-header-brand">
+                <div class="cashier-header-icon"><ion-icon name="restaurant"></ion-icon></div>
+                <div>
+                    <h2>SmartCanteen</h2>
+                    <p>Cashier Terminal</p>
+                </div>
+            </div>
+            <div class="cashier-header-right">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode"
+                    style="margin-right: 10px;">
+                    <ion-icon name="moon-outline"></ion-icon>
+                </button>
+                <div class="poll-indicator"
+                    style="display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text-muted);">
+                    <div
+                        style="width:8px;height:8px;background:var(--primary);border-radius:50%;animation:pulse 2s ease infinite;">
+                    </div> Live
+                </div>
+                <button class="btn btn-ghost btn-sm" id="logoutBtn">
+                    <ion-icon name="log-out-outline"></ion-icon> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- TABS -->
+        <nav class="cashier-tabs">
+            <button class="cashier-tab active" data-tab="paymentsView">
+                <ion-icon name="cash-outline"></ion-icon>
+                Pending Payments
+                <span class="tab-badge" id="pendingBadge" style="display:none;">0</span>
+            </button>
+        </nav>
+
+        <!-- CONTENT -->
+        <div class="cashier-content">
+
+            <!-- PENDING PAYMENTS -->
+            <div id="paymentsView">
+                <div class="cashier-stats">
+                    <div class="stat-card"
+                        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;display:flex;align-items:center;gap:14px;">
+                        <div
+                            style="width:42px;height:42px;background:rgba(245,166,35,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                            <ion-icon name="hourglass-outline" style="font-size:1.2rem;color:var(--accent);"></ion-icon>
+                        </div>
+                        <div>
+                            <div
+                                style="font-size:0.72rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;">
+                                Pending</div>
+                            <div style="font-size:1.3rem;font-weight:700;font-family:'Poppins';" id="statPending">0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card"
+                        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;display:flex;align-items:center;gap:14px;">
+                        <div
+                            style="width:42px;height:42px;background:var(--primary-dim);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                            <ion-icon name="checkmark-done-outline"
+                                style="font-size:1.2rem;color:var(--primary);"></ion-icon>
+                        </div>
+                        <div>
+                            <div
+                                style="font-size:0.72rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;">
+                                Confirmed</div>
+                            <div style="font-size:1.3rem;font-weight:700;font-family:'Poppins';" id="statConfirmed">0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pos-grid" id="paymentsGrid">
+                    <div class="empty-state">
+                        <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+                        <p>All clear! No pending cash payments.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+    <script src="js/cashier.js"></script>
+</body>
+
+</html>
