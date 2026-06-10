@@ -36,9 +36,9 @@ async function seedDefaultUsers() {
       await User.create({
         phone_email: 'admin',
         role: 'admin',
-        password: process.env.ADMIN_PASSWORD || 'admin123'
+        password: process.env.ADMIN_PASSWORD
       });
-      console.log('🔑 Default Admin created (username: admin, password: admin123)');
+      console.log('🔑 Default Admin created ');
     }
 
     const cashierExists = await User.findOne({ role: 'cashier' });
@@ -46,9 +46,9 @@ async function seedDefaultUsers() {
       await User.create({
         phone_email: 'cashier',
         role: 'cashier',
-        password: process.env.CASHIER_PASSWORD || 'cashier123'
+        password: process.env.CASHIER_PASSWORD
       });
-      console.log('🔑 Default Cashier created (username: cashier, password: cashier123)');
+      console.log('🔑 Default Cashier created ');
     }
   } catch (error) {
     console.error('Error seeding default users:', error);
